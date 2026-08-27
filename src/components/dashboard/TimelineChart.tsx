@@ -14,7 +14,6 @@ import {
   Chip,
   Paper,
 } from '@mui/material'
-import { InfoOutlined } from '@mui/icons-material'
 import type {
   MachineIntervalsData,
   UnifiedSegment,
@@ -642,45 +641,100 @@ export function TimelineChart({
           )}
         </Box>
 
-        {/* Bottom Helper Bar */}
+        {/* Chart Footer Capsules — matching mockup style */}
         <Box
           sx={{
             display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'space-between',
+            flexDirection: 'column',
             gap: 1.5,
             mt: 2,
             pt: 1.5,
             borderTop: '1px solid #F1F5F9',
           }}
         >
-          {/* Instructions Chips */}
+          {/* Row 1: Instruction & Legend Pills */}
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
             <Chip
               size="small"
-              label="Shift + drag to zoom · double-click to reset"
+              label="Shift + drag to zoom into a time range · double-click to reset"
               variant="outlined"
-              sx={{ fontSize: '0.75rem', borderColor: '#CBD5E1' }}
+              sx={{
+                fontSize: '0.73rem',
+                fontWeight: 500,
+                borderColor: '#94A3B8',
+                color: '#475569',
+                borderRadius: '16px',
+                height: 28,
+              }}
             />
             <Chip
               size="small"
-              label="Circles = FIRST (PASS) · Crosses = FIRST (FAIL)"
+              label="Colored lines = cumulative production (OK + NG) per part model"
               variant="outlined"
-              sx={{ fontSize: '0.75rem', borderColor: '#CBD5E1' }}
+              sx={{
+                fontSize: '0.73rem',
+                fontWeight: 500,
+                borderColor: '#94A3B8',
+                color: '#475569',
+                borderRadius: '16px',
+                height: 28,
+              }}
             />
+            {showIndividualProduces && (
+              <Chip
+                size="small"
+                label="Circles = FIRST (PASS) · Crosses = FIRST (FAIL) · Triangles = WIP"
+                variant="outlined"
+                sx={{
+                  fontSize: '0.73rem',
+                  fontWeight: 500,
+                  borderColor: '#94A3B8',
+                  color: '#475569',
+                  borderRadius: '16px',
+                  height: 28,
+                }}
+              />
+            )}
+            {!showIndividualProduces && (
+              <Chip
+                size="small"
+                label="Circles = FIRST (PASS) · Crosses = FIRST (FAIL)"
+                variant="outlined"
+                sx={{
+                  fontSize: '0.73rem',
+                  fontWeight: 500,
+                  borderColor: '#94A3B8',
+                  color: '#475569',
+                  borderRadius: '16px',
+                  height: 28,
+                }}
+              />
+            )}
           </Box>
 
-          {/* Last Observed Produce Banner */}
+          {/* Row 2: Last Observed Produce Timestamp */}
           {lastProduce && (
-            <Chip
-              icon={<InfoOutlined sx={{ fontSize: '16px !important' }} />}
-              label={`Last observed produce at: ${formatISTTime(lastProduce.timestampIST, 'dd MMM, HH:mm:ss')}`}
-              color="primary"
-              variant="outlined"
-              size="small"
-              sx={{ fontWeight: 600 }}
-            />
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Chip
+                label={
+                  <Typography variant="caption" sx={{ fontWeight: 500, fontSize: '0.78rem' }}>
+                    Last observed produce at:{' '}
+                    <Box component="span" sx={{ fontWeight: 700, color: '#1E40AF' }}>
+                      {formatISTTime(lastProduce.timestampIST, 'dd MMM, HH:mm:ss')}
+                    </Box>
+                  </Typography>
+                }
+                variant="outlined"
+                size="small"
+                sx={{
+                  borderColor: '#F59E0B',
+                  bgcolor: '#FFFBEB',
+                  borderRadius: '16px',
+                  height: 30,
+                  '& .MuiChip-label': { px: 1.5 },
+                }}
+              />
+            </Box>
           )}
         </Box>
       </CardContent>
