@@ -22,7 +22,8 @@ We evaluated four storage strategies:
 
 3. **Client-side Cookie (`document.cookie`):**
    - **Pros:** Can set domain/path and max-age expiration.
-   - **Cons:** Since the backend does not issue `HttpOnly` Set-Cookie headers, any cookie created via client JS is still vulnerable to XSS just like `localStorage`, without the clean storage API benefits.
+   - **Cons:** A common misconception is that cookies are inherently safer than `localStorage`. The critical distinction is between **`HttpOnly` server-set cookies** (which JavaScript cannot access at all, providing true XSS protection) and **client-set cookies** (created via `document.cookie` in JS). Since this backend returns the token in the JSON body rather than via a `Set-Cookie: HttpOnly` response header, we would have to store it via `document.cookie` — which is **equally readable by any XSS-injected script** as `localStorage.getItem()`. Therefore, client-set cookies provide **zero additional security** over `localStorage` in this architecture, while offering a less ergonomic API.
+   - **When cookies WOULD be the right choice:** If the backend issued the token as an `HttpOnly; Secure; SameSite=Strict` cookie via the `Set-Cookie` header, and attached it automatically to requests, that would be the gold-standard approach — but that's a server-side architectural decision outside our control.
 
 4. **In-Memory (React state / closure variable):**
    - **Pros:** Safest against XSS (not accessible via storage APIs).
