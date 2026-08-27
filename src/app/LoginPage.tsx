@@ -11,8 +11,6 @@ import {
   CircularProgress,
   InputAdornment,
   IconButton,
-  Chip,
-  Divider,
 } from '@mui/material'
 import {
   Visibility,
@@ -28,8 +26,8 @@ export function LoginPage() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const [username, setUsername] = useState('analytics_user')
-  const [password, setPassword] = useState('dashboard123')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
@@ -211,39 +209,19 @@ export function LoginPage() {
             </Button>
           </Box>
 
-          <Divider sx={{ my: 3 }}>
-            <Chip label="Test Credentials" size="small" variant="outlined" />
-          </Divider>
-
-          {/* Test Credentials helper for assessment reviewers */}
-          <Box
+          {/* Subtle test credentials hint for assessment reviewers */}
+          <Typography
+            variant="caption"
             sx={{
-              p: 1.5,
-              bgcolor: '#F8FAFC',
-              borderRadius: 2,
-              border: '1px dashed #CBD5E1',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 0.5,
+              display: 'block',
+              textAlign: 'center',
+              color: 'text.disabled',
+              mt: 3,
+              fontSize: '0.7rem',
             }}
           >
-            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 500 }}>
-                Username:
-              </Typography>
-              <Typography variant="caption" sx={{ color: 'text.primary', fontFamily: 'monospace', fontWeight: 600 }}>
-                analytics_user
-              </Typography>
-            </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 500 }}>
-                Password:
-              </Typography>
-              <Typography variant="caption" sx={{ color: 'text.primary', fontFamily: 'monospace', fontWeight: 600 }}>
-                dashboard123
-              </Typography>
-            </Box>
-          </Box>
+            Test credentials: analytics_user / dashboard123
+          </Typography>
         </CardContent>
       </Card>
     </Box>
