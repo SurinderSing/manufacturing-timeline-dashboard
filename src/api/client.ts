@@ -2,10 +2,14 @@ import axios, { type AxiosError, type InternalAxiosRequestConfig } from 'axios'
 import { tokenStorage } from '@/lib/storage'
 import type { ApiResponse } from '@/types/api'
 
-// Base URL: default to production azure endpoint if env not set
-const BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ||
-  'https://fractaldmsdev.centralindia.cloudapp.azure.com'
+// Base URL: strictly read from environment variable
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
+
+if (!BASE_URL && import.meta.env.DEV) {
+  console.warn(
+    '[apiClient] VITE_API_BASE_URL is not set in your .env file. API requests will fail.'
+  )
+}
 
 export const apiClient = axios.create({
   baseURL: BASE_URL.replace(/\/+$/, ''), // Strip trailing slashes
